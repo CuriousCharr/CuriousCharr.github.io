@@ -1,0 +1,9 @@
+*.json text
+*.txt text
+
+# JavaScript
+*.js text
+
+# HTML
+*.htm text diff=html
+*.html text diff=html

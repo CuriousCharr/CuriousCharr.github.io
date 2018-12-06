@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Gregorian to Mouvelian Date</title>
+		<script src="Mouvelian.js"></script>
+	</head>
+	<body>
+		<div align="center">
+			<form autocomplete="off">
+				<input id="GregorianDateInput" autofocus>
+			</form>
+			<p id="MouvelianDateOutput"></p>
+		</div>
+		<script>
+			var now = new Date();
+			var gIn = document.getElementById("GregorianDateInput");
+			var mOut = document.getElementById("MouvelianDateOutput");
+			var formatExamplePlaceholder = now.getDate() + "." + (now.getMonth()+1) + "." + now.getFullYear();
+			gIn.placeholder = formatExamplePlaceholder;
+			gIn.value = formatExamplePlaceholder;
+			
+			gIn.onkeyup = function() {
+				var gInText = gIn.value;
+				var gDateParts = gInText.split(".");
+				if (gDateParts.length === 3) {
+					try {
+						var result = mouvelian(asGregorianDate(parseInt(gDateParts[0]), parseInt(gDateParts[1]-1), parseInt(gDateParts[2])));
+						mOut.innerHTML = result.day + " " + result.seasonName + " " + result.year;
+						return;
+					} catch (err) {
+						if (err.hasOwnProperty("prettyMessage")) {
+							mOut.innerHTML = err.prettyMessage;
+							return;
+						}
+					}
+				}
+				mOut.innerHTML = "Unrecognized Date.";
+			}
+			
+			var result = mouvelianFromDate(now);
+			mOut.innerHTML = result.day + " " + result.seasonName + " " + result.year;
+		</script>
+	</body>
+</html>
