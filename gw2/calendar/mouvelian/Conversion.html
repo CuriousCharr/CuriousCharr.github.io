@@ -16,16 +16,16 @@
 			var now = new Date();
 			var gIn = document.getElementById("GregorianDateInput");
 			var mOut = document.getElementById("MouvelianDateOutput");
-			var formatExamplePlaceholder = now.getDate() + "." + (now.getMonth()+1) + "." + now.getFullYear();
+			var formatExamplePlaceholder = now.getFullYear() + "-" + (now.getMonth()+1) + "-" + now.getDate();
 			gIn.placeholder = formatExamplePlaceholder;
 			gIn.value = formatExamplePlaceholder;
 			
 			gIn.onkeyup = function() {
 				var gInText = gIn.value;
-				var gDateParts = gInText.split(".");
+				var gDateParts = gInText.split("-");
 				if (gDateParts.length === 3) {
 					try {
-						var result = mouvelian(asGregorianDate(parseInt(gDateParts[0]), parseInt(gDateParts[1]-1), parseInt(gDateParts[2])));
+						var result = mouvelian(asGregorianDate(parseInt(gDateParts[2]), parseInt(gDateParts[1]-1), parseInt(gDateParts[0])));
 						mOut.innerHTML = result.day + " " + result.seasonName + " " + result.year;
 						return;
 					} catch (err) {
