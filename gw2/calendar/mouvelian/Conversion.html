@@ -25,8 +25,8 @@
 				var gDateParts = gInText.split("-");
 				if (gDateParts.length === 3) {
 					try {
-						var result = mouvelian(asGregorianDate(parseInt(gDateParts[2]), parseInt(gDateParts[1]-1), parseInt(gDateParts[0])));
-						mOut.innerHTML = result.day + " " + result.seasonName + " " + result.year;
+						var result = MouvelianDate.fromGregorianDate(new GregorianDate(parseInt(gDateParts[2]), parseInt(gDateParts[1]-1), parseInt(gDateParts[0])));
+						mOut.innerHTML = result.day + " " + result.seasonName() + " " + result.year;
 						return;
 					} catch (err) {
 						if (err.hasOwnProperty("prettyMessage")) {
@@ -38,8 +38,8 @@
 				mOut.innerHTML = "Unrecognized Date.";
 			}
 			
-			var result = mouvelianFromDate(now);
-			mOut.innerHTML = result.day + " " + result.seasonName + " " + result.year;
+			var result = MouvelianDate.fromDate(now);
+			mOut.innerHTML = result.day + " " + result.seasonName() + " " + result.year;
 		</script>
 	</body>
 </html>
