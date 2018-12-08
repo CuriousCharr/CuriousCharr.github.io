@@ -26,8 +26,8 @@ class ComparableDate {
 		
 	}
 	
-	isAfter(gOther, ifEqual) {
-		var result = this.compareTo(gOther);
+	isAfter(other, ifEqual) {
+		var result = this.compareTo(other);
 		switch (result) {
 		case 1:  return true;
 		case 0:  return ifEqual;
@@ -36,8 +36,8 @@ class ComparableDate {
 		}
 	}
 	
-	isBefore(gOther, ifEqual) {
-		var result = this.compareTo(gOther);
+	isBefore(other, ifEqual) {
+		var result = this.compareTo(other);
 		switch (result) {
 		case 1:  return false;
 		case 0:  return ifEqual;
@@ -61,12 +61,12 @@ class GregorianDate extends ComparableDate {
 				prettyMessage: "Year out of range. The supported range for Years is 1900-9999."
 			};
 		}
-		var dim = GregorianDate.daysInMonth(gMonth, GregorianDate.isLeapYear(gYear));
-		if (gDay < 1 || gDay > dim || Number.isNaN(gDay)) {
+		var daysInMonth = GregorianDate.daysInMonth(gMonth, GregorianDate.isLeapYear(gYear));
+		if (gDay < 1 || gDay > daysInMonth || Number.isNaN(gDay)) {
 			throw {
 				name: "OutOfRangeException",
-				message: "Encountered invalid Gregorian Day for given Month (" + gMonth + "). Valid range is [1, " + dim + "]; Was: " + gDay,
-				prettyMessage: "Day out of range. The valid range for Days in the Month of " + GregorianDate.monthName(gMonth) + (gMonth === FEBRUARY ? " " + gYear : "") + " is 1-" + dim + "."
+				message: "Encountered invalid Gregorian Day for given Month (" + gMonth + "). Valid range is [1, " + daysInMonth + "]; Was: " + gDay,
+				prettyMessage: "Day out of range. The valid range for Days in the Month of " + GregorianDate.monthName(gMonth) + (gMonth === FEBRUARY ? " " + gYear : "") + " is 1-" + daysInMonth + "."
 			};
 		}
 		this.day = gDay;
@@ -102,9 +102,9 @@ class GregorianDate extends ComparableDate {
 	
 	dayInYear() {
 		var dayInYear = 0;
-		var leapYear = this.isLeapYear();
+		var isLeapYear = this.isLeapYear();
 		for (var i=this.month-1;i >= JANUARY;i--) {
-			dayInYear += GregorianDate.daysInMonth(i, leapYear);
+			dayInYear += GregorianDate.daysInMonth(i, isLeapYear);
 		}
 		dayInYear += this.day;
 		return dayInYear;
@@ -204,7 +204,7 @@ class MouvelianDate extends ComparableDate {
 	}
 	
 	seasonName() {
-		return MouvelianDate.mouvelianSeasonName(this.season);
+		return MouvelianDate.seasonName(this.season);
 	}
 	
 	compareTo(mOther) {
@@ -270,7 +270,7 @@ class MouvelianDate extends ComparableDate {
 		return MouvelianDate.fromGregorianDate(GregorianDate.today());
 	}
 	
-	static mouvelianSeasonName(mSeason) {
+	static seasonName(mSeason) {
 		switch (mSeason) {
 		case ZEPHYR:   return "Zephyr";
 		case PHOENIX:  return "Phoenix";
