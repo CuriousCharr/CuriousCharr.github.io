@@ -26,20 +26,20 @@
 				if (gDateParts.length === 3) {
 					try {
 						var result = MouvelianDate.fromGregorianDate(new GregorianDate(parseInt(gDateParts[2]), parseInt(gDateParts[1]-1), parseInt(gDateParts[0])));
-						mOut.innerHTML = result.day + " " + result.seasonName() + " " + result.year;
+						mOut.textContent = result.day + " " + result.seasonName() + " " + result.year;
 						return;
 					} catch (err) {
 						if (err.hasOwnProperty("prettyMessage")) {
-							mOut.innerHTML = err.prettyMessage;
+							mOut.textContent = err.prettyMessage;
 							return;
 						}
 					}
 				}
-				mOut.innerHTML = "Unrecognized Date.";
+				mOut.textContent = "Unrecognized Date.";
 			}
 			
 			var result = MouvelianDate.fromDate(now);
-			mOut.innerHTML = result.day + " " + result.seasonName() + " " + result.year;
+			mOut.textContent = result.day + " " + result.seasonName() + " " + result.year;
 		</script>
 	</body>
 </html>
