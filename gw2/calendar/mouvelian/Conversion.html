@@ -23,15 +23,15 @@
 		<script>
 			const gregToMouvFrag = "#gregorian-to-mouvelian";
 			const mouvToGregFrag = "#mouvelian-to-gregorian";
-			if (window.location.hash.length === 0 || (window.location.hash !== gregToMouvFrag && window.location.hash !== mouvToGregFrag)) {
-				window.location.assign(gregToMouvFrag)
-			}
 			var fragment = window.location.hash;
 			switch (fragment) {
-			case mouvToGregFrag: setupMouvToGreg();
+			case mouvToGregFrag:
+				setupMouvToGreg();
+				break;
 			case gregToMouvFrag:
 			default:
 				setupGregToMouv();
+				break;
 			}
 			function setupGregToMouv() {
 				window.location.assign(gregToMouvFrag);
