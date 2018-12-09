@@ -97,7 +97,6 @@
 							}
 							var mDate = new MouvelianDate(parseInt(gDateParts[0]), mSeason, parseInt(gDateParts[2]));
 							var result = GregorianDate.fromMouvelianDate(mDate);
-							//if (result.isLeapYear() && result.day === 28 && result.month === FEBRUARY) {
 							if (result.isLeapYear()) {
 								var mLeapDay = MouvelianDate.fromGregorianDate(new GregorianDate(29, FEBRUARY, result.year));
 								if (mDate.equals(mLeapDay)) {
