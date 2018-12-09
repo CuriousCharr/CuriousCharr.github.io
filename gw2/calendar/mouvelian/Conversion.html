@@ -2,18 +2,23 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Gregorian to Mouvelian Date</title>
+		<title>Mouvelian Date Conversions</title>
 		<script src="Mouvelian.js"></script>
 	</head>
 	<body>
 		<div id="page-root" align="center">
 			<div id="navigation">
 				<p>
-					<input type="button" value="Gregorian -> Mouvelian" onclick="window.location.assign('#gregorian-to-mouvelian');location.reload();">
-					<input type="button" value="Mouvelian -> Gregorian" onclick="window.location.assign('#mouvelian-to-gregorian');location.reload();">
+					<input type="button" value="Gregorian -> Mouvelian" onclick="window.location.assign('#gregorian-to-mouvelian');setupGregToMouv();">
+					<input type="button" value="Mouvelian -> Gregorian" onclick="window.location.assign('#mouvelian-to-gregorian');setupMouvToGreg();">
 				</p>
 			</div>
-			<div id="in-out-put"></div>
+			<div id="in-out-put">
+				<form autocomplete="off">
+					<input id="DateInput" autofocus>
+				</form>
+				<p id="DateOutput"></p>
+			</div>
 		</div>
 		<script>
 			const gregToMouvFrag = "#gregorian-to-mouvelian";
@@ -22,20 +27,51 @@
 				window.location.assign(gregToMouvFrag)
 			}
 			var fragment = window.location.hash;
-			var inOutPut = document.getElementById("in-out-put");
 			if (fragment === mouvToGregFrag) {
-				inOutPut.innerHTML = "<form autocomplete=\"off\"><input id=\"MouvelianDateInput\" autofocus></form><p id=\"GregorianDateOutput\"></p>"
+				setupMouvToGreg();
+			} else {
+				setupGregToMouv();
+			}
+			function setupGregToMouv() {
+				var now = new Date();
+				var dateIn = document.getElementById("DateInput");
+				var dateOut = document.getElementById("DateOutput");
+				var formatExamplePlaceholder = now.getFullYear() + "-" + (now.getMonth()+1) + "-" + now.getDate();
+				dateIn.placeholder = formatExamplePlaceholder;
+				dateIn.value = formatExamplePlaceholder;
 				
+				dateIn.onkeyup = function() {
+					var dateInText = dateIn.value;
+					var gDateParts = dateInText.split("-");
+					if (gDateParts.length === 3) {
+						try {
+							var result = MouvelianDate.fromGregorianDate(new GregorianDate(parseInt(gDateParts[2]), parseInt(gDateParts[1]-1), parseInt(gDateParts[0])));
+							dateOut.textContent = result.day + " " + result.seasonName() + " " + result.year;
+							return;
+						} catch (err) {
+							if (err.hasOwnProperty("prettyMessage")) {
+								dateOut.textContent = err.prettyMessage;
+								return;
+							}
+						}
+					}
+					dateOut.textContent = "Unrecognized Date.";
+				}
+				
+				var result = MouvelianDate.fromDate(now);
+				dateOut.textContent = result.day + " " + result.seasonName() + " " + result.year;
+			}
+			function setupMouvToGreg() {
 				var now = MouvelianDate.today();
-				var mIn = document.getElementById("MouvelianDateInput");
-				var gOut = document.getElementById("GregorianDateOutput");
+				var dateIn = document.getElementById("DateInput");
+				var dateOut = document.getElementById("DateOutput");
 				var formatExamplePlaceholder = now.day + " " + now.seasonName() + " " + now.year;
-				mIn.placeholder = formatExamplePlaceholder;
-				mIn.value = formatExamplePlaceholder;
+				dateIn.placeholder = formatExamplePlaceholder;
+				dateIn.value = formatExamplePlaceholder;
 				
-				mIn.onkeyup = function() {
-					var gInText = mIn.value;
-					var gDateParts = gInText.split(" ");
+				dateIn.onkeyup = function() {
+					var dateInText = dateIn.value;
+					var gDateParts = dateInText.split(" ");
 					if (gDateParts.length === 3) {
 						try {
 							var mSeason = NaN;
@@ -55,51 +91,20 @@
 								}
 							}
 							var result = GregorianDate.fromMouvelianDate(new MouvelianDate(parseInt(gDateParts[0]), mSeason, parseInt(gDateParts[2])));
-							gOut.textContent = result.year + "-" + (result.month+1) + "-" + result.day;
+							dateOut.textContent = result.year + "-" + (result.month+1) + "-" + result.day;
 							return;
 						} catch (err) {
 							if (err.hasOwnProperty("prettyMessage")) {
-								gOut.textContent = err.prettyMessage;
+								dateOut.textContent = err.prettyMessage;
 								return;
 							}
-							throw err; <!-- REMOVE! -->
 						}
 					}
-					gOut.textContent = "Unrecognized Date.";
+					dateOut.textContent = "Unrecognized Date.";
 				}
 				
 				var result = GregorianDate.fromMouvelianDate(now);
-				gOut.textContent = result.year + "-" + (result.month+1) + "-" + result.day;
-			} else {
-				inOutPut.innerHTML = "<form autocomplete=\"off\"><input id=\"GregorianDateInput\" autofocus></form><p id=\"MouvelianDateOutput\"></p>"
-				
-				var now = new Date();
-				var gIn = document.getElementById("GregorianDateInput");
-				var mOut = document.getElementById("MouvelianDateOutput");
-				var formatExamplePlaceholder = now.getFullYear() + "-" + (now.getMonth()+1) + "-" + now.getDate();
-				gIn.placeholder = formatExamplePlaceholder;
-				gIn.value = formatExamplePlaceholder;
-				
-				gIn.onkeyup = function() {
-					var gInText = gIn.value;
-					var gDateParts = gInText.split("-");
-					if (gDateParts.length === 3) {
-						try {
-							var result = MouvelianDate.fromGregorianDate(new GregorianDate(parseInt(gDateParts[2]), parseInt(gDateParts[1]-1), parseInt(gDateParts[0])));
-							mOut.textContent = result.day + " " + result.seasonName() + " " + result.year;
-							return;
-						} catch (err) {
-							if (err.hasOwnProperty("prettyMessage")) {
-								mOut.textContent = err.prettyMessage;
-								return;
-							}
-						}
-					}
-					mOut.textContent = "Unrecognized Date.";
-				}
-				
-				var result = MouvelianDate.fromDate(now);
-				mOut.textContent = result.day + " " + result.seasonName() + " " + result.year;
+				dateOut.textContent = result.year + "-" + (result.month+1) + "-" + result.day;
 			}
 		</script>
 	</body>
