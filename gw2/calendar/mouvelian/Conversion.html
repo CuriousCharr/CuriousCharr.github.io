@@ -29,9 +29,9 @@
 			var fragment = window.location.hash;
 			switch (fragment) {
 			case mouvToGregFrag: setupMouvToGreg();
-			case gregToMouvFrag: setupGregToMouv();
+			case gregToMouvFrag:
 			default:
-				// Dont display anything; regarding Input and Output. (Let the Navigation be displayed on its own.)
+				setupGregToMouv();
 			}
 			function setupGregToMouv() {
 				window.location.assign(gregToMouvFrag);
