@@ -9,8 +9,8 @@
 		<div id="page-root" align="center">
 			<div id="navigation">
 				<p>
-					<input type="button" value="Gregorian -> Mouvelian" onclick="window.location.assign('#gregorian-to-mouvelian');setupGregToMouv();">
-					<input type="button" value="Mouvelian -> Gregorian" onclick="window.location.assign('#mouvelian-to-gregorian');setupMouvToGreg();">
+					<input type="button" value="Gregorian -> Mouvelian" onclick="setupGregToMouv();">
+					<input type="button" value="Mouvelian -> Gregorian" onclick="setupMouvToGreg();">
 				</p>
 			</div>
 			<div id="in-out-put">
@@ -27,12 +27,15 @@
 				window.location.assign(gregToMouvFrag)
 			}
 			var fragment = window.location.hash;
-			if (fragment === mouvToGregFrag) {
-				setupMouvToGreg();
-			} else {
-				setupGregToMouv();
+			switch (fragment) {
+			case mouvToGregFrag: setupMouvToGreg();
+			case gregToMouvFrag: setupGregToMouv();
+			default:
+				// Dont display anything; regarding Input and Output. (Let the Navigation be displayed on its own.)
 			}
 			function setupGregToMouv() {
+				window.location.assign(gregToMouvFrag);
+				
 				var now = new Date();
 				var dateIn = document.getElementById("DateInput");
 				var dateOut = document.getElementById("DateOutput");
@@ -62,6 +65,8 @@
 				dateOut.textContent = result.day + " " + result.seasonName() + " " + result.year;
 			}
 			function setupMouvToGreg() {
+				window.location.assign(mouvToGregFrag);
+				
 				var now = MouvelianDate.today();
 				var dateIn = document.getElementById("DateInput");
 				var dateOut = document.getElementById("DateOutput");
