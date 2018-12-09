@@ -268,13 +268,12 @@ class MouvelianDate extends ComparableDate {
 				prettyMessage: "Year out of range. The supported range for Years is " + mLower + "-" + mUpper + "."
 			};
 		}
-		var gYear = mYear+YEAR_DIFFERENCE;
-		var daysInSeason = MouvelianDate.daysInSeason(mSeason, GregorianDate.isLeapYear(gYear));
-		if (mDay < 1 || mDay > daysInSeason || Number.isNaN(mDay)) {
+		var seasonUpperDayBound = MouvelianDate.seasonUpperDayBound(mSeason);
+		if (mDay < 1 || mDay > seasonUpperDayBound || Number.isNaN(mDay)) {
 			throw {
 				name: "OutOfRangeException",
-				message: "Encountered invalid Mouvelian Day for given Season (" + mSeason + "). Valid range is [1, " + daysInSeason + "]; Was: " + mDay,
-				prettyMessage: "Day out of range. The valid range for Days in the Season of " + MouvelianDate.seasonName(mSeason) + (mSeason === ZEPHYR ? " " + mYear : "") + " is 1-" + daysInSeason + "."
+				message: "Encountered invalid Mouvelian Day for given Season (" + mSeason + "). Valid range is [1, " + seasonUpperDayBound + "]; Was: " + mDay,
+				prettyMessage: "Day out of range. The valid range for Days in the Season of " + MouvelianDate.seasonName(mSeason) + " is 1-" + seasonUpperDayBound + "."
 			};
 		}
 		this.day = mDay;
@@ -366,6 +365,21 @@ class MouvelianDate extends ComparableDate {
 	static daysInSeason(mSeason, isLeapYear) {
 		switch (mSeason) {
 		case ZEPHYR:   return isLeapYear ? 91 : 90;
+		case PHOENIX:  return 91;
+		case SCION:    return 92;
+		case COLOSSUS: return 92;
+		default: throw {
+			name: "OutOfRangeException",
+			message: "Encountered invalid Mouvelian Season. Valid range is [0, 4[; Was: " + mSeason,
+			prettyMessage: "Season out of range. The valid range for Seasons is 1-4. (Zephyr -> Phoenix -> Scion -> Colossus)"
+		};
+		}
+	}
+	
+	static seasonUpperDayBound(mSeason) {
+		switch (mSeason) {
+		// As i understand the Calendar, during Leap Years, the Season of Zephyr has 91 Days; two of which share the same Date however (assuming that the 28 and 29 of February are both represented by the 59 of Zephyr). This would yield 90 as the upper bound, as far as the numerical value for the Day is concearned at least; having the 58 of Zephyr followed by the 59 of Zephyr twice, translating to either the 28 or the 29 of February respectively.
+		case ZEPHYR:   return 90;
 		case PHOENIX:  return 91;
 		case SCION:    return 92;
 		case COLOSSUS: return 92;
