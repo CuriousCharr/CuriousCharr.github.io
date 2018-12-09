@@ -128,7 +128,7 @@ class GregorianDate extends ComparableDate {
 		case OCTOBER:   return "October";
 		case NOVEMBER:  return "November";
 		case DECEMBER:  return "December";
-		default: throw new Error("Encountered invalid Gregorian Month. (Valid range is [0, 12[) Was: " + gMonth);
+		default: throw new Error("Encountered invalid Gregorian Month. Valid range is [0, 12[; Was: " + gMonth);
 		}
 	}
 	
@@ -180,7 +180,7 @@ class GregorianDate extends ComparableDate {
 		case DECEMBER:  return 31;
 		default: throw {
 			name: "OutOfRangeException",
-			message: "Encountered invalid Gregorian Month. (Valid range is [0, 12[) Was: " + gMonth,
+			message: "Encountered invalid Gregorian Month. (alid range is [0, 12[; Was: " + gMonth,
 			prettyMessage: "Month out of range. The valid range for Months is 1-12."
 		};
 		}
@@ -212,7 +212,7 @@ class GregorianDate extends ComparableDate {
 			}
 			if (isLeapYear) {
 				var leapDay = MouvelianDate.fromGregorianDate(new GregorianDate(29, FEBRUARY, gYear));
-				gDay += mouvelianDate.isAfter(leapDay) ? 1 : 0;
+				gDay += mDate.isAfter(leapDay) ? 1 : 0;
 				if (gDay > daysInMonth) {
 					gMonth++;
 					gDay = gDay-daysInMonth;
@@ -259,6 +259,24 @@ class GregorianDate extends ComparableDate {
 class MouvelianDate extends ComparableDate {
 	constructor(mDay, mSeason, mYear) {
 		super();
+		var mLower = 1900-YEAR_DIFFERENCE;
+		var mUpper = 9999-YEAR_DIFFERENCE;
+		if (mYear < mLower || mYear > mUpper || Number.isNaN(mYear)) {
+			throw {
+				name: "OutOfRangeException",
+				message: "Encountered unsupported Mouvelian Year. Supported range is [" + mLower + ", " + mUpper + "]; Was: " + mYear,
+				prettyMessage: "Year out of range. The supported range for Years is " + mLower + "-" + mUpper + "."
+			};
+		}
+		var gYear = mYear+YEAR_DIFFERENCE;
+		var daysInSeason = MouvelianDate.daysInSeason(mSeason, GregorianDate.isLeapYear(gYear));
+		if (mDay < 1 || mDay > daysInSeason || Number.isNaN(mDay)) {
+			throw {
+				name: "OutOfRangeException",
+				message: "Encountered invalid Mouvelian Day for given Season (" + mSeason + "). Valid range is [1, " + daysInSeason + "]; Was: " + mDay,
+				prettyMessage: "Day out of range. The valid range for Days in the Season of " + MouvelianDate.seasonName(mSeason) + (mSeason === ZEPHYR ? " " + mYear : "") + " is 1-" + daysInSeason + "."
+			};
+		}
 		this.day = mDay;
 		this.season = mSeason;
 		this.year = mYear;
@@ -337,11 +355,25 @@ class MouvelianDate extends ComparableDate {
 		case PHOENIX:  return "Phoenix";
 		case SCION:    return "Scion";
 		case COLOSSUS: return "Colossus";
-		default: throw new Error("Encountered invalid Mouvelian Season. (Valid range is [0, 4[) Was: " + mSeason);
+		default: throw new Error("Encountered invalid Mouvelian Season. Valid range is [0, 4[; Was: " + mSeason);
 		}
 	}
 	
 	static fromDate(date) {
 		return MouvelianDate.fromGregorianDate(GregorianDate.fromDate(date));
+	}
+	
+	static daysInSeason(mSeason, isLeapYear) {
+		switch (mSeason) {
+		case ZEPHYR:   return isLeapYear ? 91 : 90;
+		case PHOENIX:  return 91;
+		case SCION:    return 92;
+		case COLOSSUS: return 92;
+		default: throw {
+			name: "OutOfRangeException",
+			message: "Encountered invalid Mouvelian Season. Valid range is [0, 4[; Was: " + mSeason,
+			prettyMessage: "Season out of range. The valid range for Seasons is 1-4. (Zephyr -> Phoenix -> Scion -> Colossus)"
+		};
+		}
 	}
 }

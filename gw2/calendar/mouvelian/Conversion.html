@@ -46,10 +46,12 @@
 								"COLOSSUS": 3
 							};
 							var lowerCasedSeason = gDateParts[1].toUpperCase();
-							for (var seasonName in seasonNameToSeason) {
-								if (seasonName.startsWith(lowerCasedSeason)) {
-									mSeason = seasonNameToSeason[seasonName];
-									break;
+							if (lowerCasedSeason.length !== 0) {
+								for (var seasonName in seasonNameToSeason) {
+									if (seasonName.startsWith(lowerCasedSeason)) {
+										mSeason = seasonNameToSeason[seasonName];
+										break;
+									}
 								}
 							}
 							var result = GregorianDate.fromMouvelianDate(new MouvelianDate(parseInt(gDateParts[0]), mSeason, parseInt(gDateParts[2])));
