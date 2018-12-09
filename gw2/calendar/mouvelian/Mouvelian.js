@@ -195,7 +195,64 @@ class GregorianDate extends ComparableDate {
 	}
 	
 	static fromMouvelianDate(mDate) {
-		return GregorianDate.today(); //TODO
+		var gYear = mDate.year+YEAR_DIFFERENCE;
+		var isLeapYear = GregorianDate.isLeapYear(gYear);
+		var gMonth = -1, gDay = -1, daysInQuater = 0;
+		switch (mDate.season) {
+		case ZEPHYR:
+			var daysInMonth = 0;
+			for (var month=JANUARY;month <= MARCH;month++) {
+				gDay = mDate.day-daysInQuater;
+				daysInMonth = GregorianDate.daysInMonth(month, isLeapYear);
+				daysInQuater += daysInMonth;
+				if (mDate.day <= daysInQuater) {
+					gMonth = month;
+					break;
+				}
+			}
+			if (isLeapYear) {
+				var leapDay = MouvelianDate.fromGregorianDate(new GregorianDate(29, FEBRUARY, gYear));
+				gDay += mouvelianDate.isAfter(leapDay) ? 1 : 0;
+				if (gDay > daysInMonth) {
+					gMonth++;
+					gDay = gDay-daysInMonth;
+				}
+			}
+			break;
+		case PHOENIX:
+			for (var month=APRIL;month <= JUNE;month++) {
+				gDay = mDate.day-daysInQuater;
+				daysInQuater += GregorianDate.daysInMonth(month, isLeapYear);
+				if (mDate.day <= daysInQuater) {
+					gMonth = month;
+					break;
+				}
+			}
+			break;
+		case SCION:
+			for (var month=JULY;month <= SEPTEMBER;month++) {
+				gDay = mDate.day-daysInQuater;
+				daysInQuater += GregorianDate.daysInMonth(month, isLeapYear);
+				if (mDate.day <= daysInQuater) {
+					gMonth = month;
+					break;
+				}
+			}
+			break;
+		case COLOSSUS:
+			for (var month=OCTOBER;month <= DECEMBER;month++) {
+				gDay = mDate.day-daysInQuater;
+				daysInQuater += GregorianDate.daysInMonth(month, isLeapYear);
+				if (mDate.day <= daysInQuater) {
+					gMonth = month;
+					break;
+				}
+			}
+			break;
+		default:
+			throw new Error("Encountered invalid Mouvelian Season. Valid range is [0, 4[; Was: " + mDate.season);
+		}
+		return new GregorianDate(gDay, gMonth, gYear);
 	}
 }
 

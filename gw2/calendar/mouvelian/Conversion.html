@@ -52,7 +52,7 @@
 									break;
 								}
 							}
-							var result = GregorianDate.fromMouvelianDate(new MouvelianDate(parseInt(gDateParts[0]), mSeason, parseInt(gDateParts[0])));
+							var result = GregorianDate.fromMouvelianDate(new MouvelianDate(parseInt(gDateParts[0]), mSeason, parseInt(gDateParts[2])));
 							gOut.textContent = result.year + "-" + (result.month+1) + "-" + result.day;
 							return;
 						} catch (err) {
