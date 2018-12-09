@@ -193,6 +193,10 @@ class GregorianDate extends ComparableDate {
 	static fromDate(date) {
 		return new GregorianDate(date.getDate(), date.getMonth(), date.getFullYear());
 	}
+	
+	static fromMouvelianDate(mDate) {
+		return GregorianDate.today(); //TODO
+	}
 }
 
 class MouvelianDate extends ComparableDate {
