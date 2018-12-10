@@ -3,7 +3,7 @@
 }
 
 #navigation > form {
-	margin-bottom: 16px;
+	margin-bottom: 17px;
 }
 
 #navigation > form > input[type=radio] {
@@ -28,4 +28,17 @@
 
 #navigation > form > input[type=radio]:hover + label {
 	border-bottom: 1px solid blue;
+}
+
+input[type=text] {
+	font-size: 20px;
+	font-family: Menomonia;
+	margin-bottom: 16px;
+	padding: 0px;
+}
+
+p {
+	font-size: 20px;
+	font-family: Menomonia;
+	margin: 0px;
 }
