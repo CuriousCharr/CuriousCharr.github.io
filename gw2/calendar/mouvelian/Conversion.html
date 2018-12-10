@@ -15,7 +15,7 @@
 			</div>
 			<div id="in-out-put">
 				<form autocomplete="off">
-					<input id="DateInput" autofocus>
+					<input type="text" id="DateInput" autofocus>
 				</form>
 				<p id="DateOutput"></p>
 			</div>
@@ -23,6 +23,13 @@
 		<script>
 			const gregToMouvFrag = "#gregorian-to-mouvelian";
 			const mouvToGregFrag = "#mouvelian-to-gregorian";
+			const seasonNameToSeasonNumber = {
+				"ZEPHYR": 0,
+				"PHOENIX": 1,
+				"SCION": 2,
+				"COLOSSUS": 3
+			};
+			
 			var fragment = window.location.hash;
 			switch (fragment) {
 			case mouvToGregFrag:
@@ -33,6 +40,7 @@
 				setupGregToMouv();
 				break;
 			}
+			
 			function setupGregToMouv() {
 				window.location.assign(gregToMouvFrag);
 				
@@ -48,7 +56,7 @@
 					var gDateParts = dateInText.split("-");
 					if (gDateParts.length === 3) {
 						try {
-							var result = MouvelianDate.fromGregorianDate(new GregorianDate(parseInt(gDateParts[2]), parseInt(gDateParts[1]-1), parseInt(gDateParts[0])));
+							var result = MouvelianDate.fromGregorianDate(new GregorianDate(parseInt(gDateParts[2], 10), parseInt(gDateParts[1]-1, 10), parseInt(gDateParts[0], 10)));
 							dateOut.textContent = result.day + " " + result.seasonName() + " " + result.year;
 							return;
 						} catch (err) {
@@ -79,23 +87,7 @@
 					var gDateParts = dateInText.split(" ");
 					if (gDateParts.length === 3) {
 						try {
-							var mSeason = NaN;
-							var seasonNameToSeason = {
-								"ZEPHYR": 0,
-								"PHOENIX": 1,
-								"SCION": 2,
-								"COLOSSUS": 3
-							};
-							var lowerCasedSeason = gDateParts[1].toUpperCase();
-							if (lowerCasedSeason.length !== 0) {
-								for (var seasonName in seasonNameToSeason) {
-									if (seasonName.startsWith(lowerCasedSeason)) {
-										mSeason = seasonNameToSeason[seasonName];
-										break;
-									}
-								}
-							}
-							var mDate = new MouvelianDate(parseInt(gDateParts[0]), mSeason, parseInt(gDateParts[2]));
+							var mDate = new MouvelianDate(parseInt(gDateParts[0], 10), seasonNrForName(gDateParts[1]), parseInt(gDateParts[2], 10));
 							var result = GregorianDate.fromMouvelianDate(mDate);
 							if (result.isLeapYear()) {
 								var mLeapDay = MouvelianDate.fromGregorianDate(new GregorianDate(29, FEBRUARY, result.year));
@@ -118,6 +110,19 @@
 				
 				var result = GregorianDate.fromMouvelianDate(now);
 				dateOut.textContent = result.year + "-" + (result.month+1) + "-" + result.day;
+			}
+			function seasonNrForName(seasonName) {
+				var mSeason = null;
+				var upperCasedSeason = seasonName.toUpperCase();
+				if (upperCasedSeason.length !== 0) {
+					for (var season in seasonNameToSeasonNumber) {
+						if (season.startsWith(upperCasedSeason)) {
+							mSeason = seasonNameToSeasonNumber[season];
+							break;
+						}
+					}
+				}
+				return mSeason;
 			}
 		</script>
 	</body>

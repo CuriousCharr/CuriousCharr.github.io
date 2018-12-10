@@ -212,7 +212,7 @@ class GregorianDate extends ComparableDate {
 			}
 			if (isLeapYear) {
 				var leapDay = MouvelianDate.fromGregorianDate(new GregorianDate(29, FEBRUARY, gYear));
-				gDay += mDate.isAfter(leapDay) ? 1 : 0;
+				gDay += mDate.isAfter(leapDay, false) ? 1 : 0;
 				if (gDay > daysInMonth) {
 					gMonth++;
 					gDay = gDay-daysInMonth;
