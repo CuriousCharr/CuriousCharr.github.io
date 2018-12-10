@@ -11,7 +11,9 @@
 	<body>
 		<div id="page-root">
 			<div id="navigation">
-				<button onclick="setupGregToMouv();" class="nav">Gregorian</br>-></br>Mouvelian</button><button onclick="setupMouvToGreg();" class="nav">Mouvelian</br>-></br>Gregorian</button>
+				<form autocomplete="off">
+					<input type="radio" name="DateConversionType" onclick="setupGregToMouv();" id="GregToMouv"><label for="GregToMouv">Gregorian</br>-></br>Mouvelian</label><input type="radio" name="DateConversionType" onclick="setupMouvToGreg();" id="MouvToGreg"><label for="MouvToGreg">Mouvelian</br>-></br>Gregorian</label>
+				</form>
 			</div>
 			<div id="in-out-put">
 				<form autocomplete="off">
@@ -43,6 +45,8 @@
 			
 			function setupGregToMouv() {
 				window.location.assign(gregToMouvFrag);
+				var gregToMouvRadio = document.getElementById("GregToMouv");
+				gregToMouvRadio.checked = true;
 				
 				var now = new Date();
 				var dateIn = document.getElementById("DateInput");
@@ -71,9 +75,13 @@
 				
 				var result = MouvelianDate.fromDate(now);
 				dateOut.textContent = result.day + " " + result.seasonName() + " " + result.year;
+				
+				dateIn.focus();
 			}
 			function setupMouvToGreg() {
 				window.location.assign(mouvToGregFrag);
+				var mouvToGregRadio = document.getElementById("MouvToGreg");
+				mouvToGregRadio.checked = true;
 				
 				var now = MouvelianDate.today();
 				var dateIn = document.getElementById("DateInput");
@@ -110,6 +118,8 @@
 				
 				var result = GregorianDate.fromMouvelianDate(now);
 				dateOut.textContent = result.year + "-" + (result.month+1) + "-" + result.day;
+				
+				dateIn.focus();
 			}
 			function seasonNrForName(seasonName) {
 				var mSeason = null;
