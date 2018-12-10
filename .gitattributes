@@ -7,3 +7,6 @@
 # HTML
 *.htm text diff=html
 *.html text diff=html
+
+# CSS
+*.css text diff=css
