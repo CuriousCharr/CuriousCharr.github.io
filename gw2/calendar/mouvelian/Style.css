@@ -35,14 +35,14 @@
 }
 
 input[type=text] {
-	font-size: 20px;
+	font-size: 40px;
 	font-family: Menomonia;
 	margin-bottom: 16px;
 	padding: 0px;
 }
 
 p {
-	font-size: 20px;
+	font-size: 30px;
 	font-family: Menomonia;
 	margin: 0px;
 }
