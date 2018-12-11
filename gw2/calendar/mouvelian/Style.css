@@ -11,13 +11,15 @@
 }
 
 #navigation > form > input[type=radio] + label {
+	display: inline-block;
+	
 	font-size: 20px;
 	font-family: Menomonia;
+	
 	background-color: transparent;
 	outline: none;
 	padding: 0px;
-	display: inline-block;
-	border: 0px solid transparent;
+	border: none;
 	
 	border-bottom: 1px solid transparent;
 }
@@ -39,8 +41,26 @@ input[type=text] {
 	font-family: Menomonia;
 	margin-bottom: 16px;
 	padding: 0px;
+	
+	text-align: center;
+	border: none;
+	border-bottom: 1px solid silver;
 }
 
+.inputable-feedback {
+	font-size: 40px;
+	font-family: Menomonia;
+	color: transparent;
+}
+
+input[type=text]:hover + .inputable-feedback {
+	color: silver;
+}
+/*
+.inputable-feedback ~ input[type=text]:hover {
+	color: transparent;
+}
+*/
 p {
 	font-size: 30px;
 	font-family: Menomonia;
