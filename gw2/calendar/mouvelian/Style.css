@@ -33,7 +33,7 @@
 }
 
 #navigation > form > label + input[type=radio] + label {
-	margin-left: 16px
+	margin-left: 17px
 }
 
 input[type=text] {
@@ -56,11 +56,7 @@ input[type=text] {
 input[type=text]:hover + .inputable-feedback {
 	color: silver;
 }
-/*
-.inputable-feedback ~ input[type=text]:hover {
-	color: transparent;
-}
-*/
+
 p {
 	font-size: 30px;
 	font-family: Menomonia;

@@ -386,7 +386,7 @@ class MouvelianDate extends ComparableDate {
 		default: throw {
 			name: "OutOfRangeException",
 			message: "Encountered invalid Mouvelian Season. Valid range is [0, 4[; Was: " + mSeason,
-			prettyMessage: "Season out of range. The valid range for Seasons is 1-4. (Zephyr -> Phoenix -> Scion -> Colossus)"
+			prettyMessage: "Season out of range. The valid choices for Seasons are: Zephyr -> Phoenix -> Scion -> Colossus."
 		};
 		}
 	}
