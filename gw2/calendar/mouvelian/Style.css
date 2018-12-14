@@ -39,22 +39,17 @@
 input[type=text] {
 	font-size: 40px;
 	font-family: Menomonia;
-	margin-bottom: 16px;
+	margin-bottom: 17px;
 	padding: 0px;
 	
 	text-align: center;
-	border: none;
+	border: 1px solid transparent;
 	border-bottom: 1px solid silver;
 }
 
-.inputable-feedback {
-	font-size: 40px;
-	font-family: Menomonia;
-	color: transparent;
-}
-
-input[type=text]:hover + .inputable-feedback {
-	color: silver;
+input[type=text]:hover {
+	border: 1px solid silver;
+	/*border-bottom: 1px solid dimgray;*/
 }
 
 p {
