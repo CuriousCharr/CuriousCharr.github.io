@@ -51,6 +51,14 @@ class ComparableDate {
 	}
 }
 
+function zeroPrefix(nr, length) {
+	var str = "" + nr;
+	while (str.length < length) {
+		str = "0" + str;
+	}
+	return str;
+}
+
 class GregorianDate extends ComparableDate {
 	constructor(gDay, gMonth, gYear) {
 		super();
@@ -108,6 +116,10 @@ class GregorianDate extends ComparableDate {
 		}
 		dayInYear += this.day;
 		return dayInYear;
+	}
+	
+	toString() {
+		return this.year + "-" + zeroPrefix(this.month+1, 2) + "-" + zeroPrefix(this.day, 2);
 	}
 	
 	static today() {
@@ -301,6 +313,10 @@ class MouvelianDate extends ComparableDate {
 		return this.day === mOther.day
 			&& this.season === mOther.season
 			&& this.year === mOther.year;
+	}
+	
+	toString() {
+		return this.day + " " + this.seasonName() + " " + this.year;
 	}
 	
 	static fromGregorianDate(gDate) {

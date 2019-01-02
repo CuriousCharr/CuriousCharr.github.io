@@ -52,10 +52,10 @@
 				var gregToMouvRadio = document.getElementById("GregToMouv");
 				gregToMouvRadio.checked = true;
 				
-				var now = new Date();
+				var now = GregorianDate.today();
 				var dateIn = document.getElementById("DateInput");
 				var dateOut = document.getElementById("DateOutput");
-				var formatExamplePlaceholder = now.getFullYear() + "-" + (now.getMonth()+1) + "-" + now.getDate();
+				var formatExamplePlaceholder = now.toString();
 				dateIn.placeholder = formatExamplePlaceholder;
 				dateIn.value = formatExamplePlaceholder;
 				
@@ -65,7 +65,7 @@
 					if (gDateParts.length === 3) {
 						try {
 							var result = MouvelianDate.fromGregorianDate(new GregorianDate(parseInt(gDateParts[2], 10), parseInt(gDateParts[1]-1, 10), parseInt(gDateParts[0], 10)));
-							dateOut.textContent = result.day + " " + result.seasonName() + " " + result.year;
+							dateOut.textContent = result.toString();
 							return;
 						} catch (err) {
 							if (err.hasOwnProperty("prettyMessage")) {
@@ -77,8 +77,8 @@
 					dateOut.textContent = "Unrecognized Date.";
 				}
 				
-				var result = MouvelianDate.fromDate(now);
-				dateOut.textContent = result.day + " " + result.seasonName() + " " + result.year;
+				var result = MouvelianDate.fromGregorianDate(now);
+				dateOut.textContent = result.toString();
 				
 				dateIn.focus();
 			}
@@ -90,7 +90,7 @@
 				var now = MouvelianDate.today();
 				var dateIn = document.getElementById("DateInput");
 				var dateOut = document.getElementById("DateOutput");
-				var formatExamplePlaceholder = now.day + " " + now.seasonName() + " " + now.year;
+				var formatExamplePlaceholder = now.toString();
 				dateIn.placeholder = formatExamplePlaceholder;
 				dateIn.value = formatExamplePlaceholder;
 				
@@ -104,11 +104,11 @@
 							if (result.isLeapYear()) {
 								var mLeapDay = MouvelianDate.fromGregorianDate(new GregorianDate(29, FEBRUARY, result.year));
 								if (mDate.equals(mLeapDay)) {
-									dateOut.textContent = result.year + "-" + (result.month+1) + "-" + result.day + " or " + result.year + "-" + (result.month+1) + "-" + (result.day+1);
+									dateOut.textContent = result.toString() + " or " + result.year + "-" + zeroPrefix(result.month+1, 2) + "-" + zeroPrefix(result.day+1, 2);
 									return;
 								}
 							}
-							dateOut.textContent = result.year + "-" + (result.month+1) + "-" + result.day;
+							dateOut.textContent = result.toString();
 							return;
 						} catch (err) {
 							if (err.hasOwnProperty("prettyMessage")) {
@@ -121,7 +121,7 @@
 				}
 				
 				var result = GregorianDate.fromMouvelianDate(now);
-				dateOut.textContent = result.year + "-" + (result.month+1) + "-" + result.day;
+				dateOut.textContent = result.toString();
 				
 				dateIn.focus();
 			}
