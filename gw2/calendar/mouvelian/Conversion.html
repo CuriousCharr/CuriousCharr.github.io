@@ -104,7 +104,7 @@
 							if (result.isLeapYear()) {
 								var mLeapDay = MouvelianDate.fromGregorianDate(new GregorianDate(29, FEBRUARY, result.year));
 								if (mDate.equals(mLeapDay)) {
-									dateOut.textContent = result.toString() + " or " + result.year + "-" + zeroPrefix(result.month+1, 2) + "-" + zeroPrefix(result.day+1, 2);
+									dateOut.textContent = result.toString() + " or " + new GregorianDate(result.day+1, result.month, result.year).toString();
 									return;
 								}
 							}
