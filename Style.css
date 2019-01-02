@@ -1,0 +1,26 @@
+#page-root {
+	text-align: center;
+	
+	font-size: 17px;
+	font-family: Courier New;
+}
+
+ul {
+	text-align: left;
+	
+	list-style: none;
+}
+
+#page-root > ul {
+	display: inline-table;
+	
+	margin-top: 0px;
+}
+
+ul > li {
+	margin-top: 7px;
+}
+
+#page-root > ul > li {
+	margin-top: 0px;
+}
