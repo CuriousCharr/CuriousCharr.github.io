@@ -4,11 +4,19 @@
 		<meta charset="utf-8">
 		<meta http-equiv="Content-Style-Type" content="text/css">
 		<title>Mouvelian Date Conversions</title>
-		<script src="Mouvelian.js"></script>
+		<script type="application/javascript" src="Mouvelian.js"></script>
 		<link rel="stylesheet" type="text/css" href="Style.css">
 		<link rel="stylesheet" type="text/css" href="https://d1h9a8s8eodvjz.cloudfront.net/fonts/menomonia/08-02-12/menomonia.css">
 	</head>
 	<body>
+		<noscript>
+			<style type="text/css">
+				#page-root {
+					display: none;
+				}
+			</style>
+			<p id="ns">This Page requieres JavaScript to function properly.</br>If You would like to use this Page please make sure that JavaScript is enabled in Your Browser.</p>
+		</noscript>
 		<div id="page-root">
 			<div id="navigation">
 				<form autocomplete="off">
@@ -23,10 +31,14 @@
 			</div>
 			<div id="notices">
 				<p id="page-notice">This Page is not associated with ArenaNet or NCSOFT.</p>
-				<p id="arenanet-copyright-notice">©2010–2018 ArenaNet, LLC. All rights reserved. Guild Wars, Guild Wars 2, Heart of Thorns, Guild Wars 2: Path of Fire, ArenaNet, NCSOFT, the Interlocking NC Logo, and all associated logos and designs are trademarks or registered trademarks of NCSOFT Corporation. All other trademarks are the property of their respective owners.</p>
+				<p id="arenanet-copyright-notice">©2010–2019 ArenaNet, LLC. All rights reserved. Guild Wars, Guild Wars 2, Heart of Thorns, Guild Wars 2: Path of Fire, ArenaNet, NCSOFT, the Interlocking NC Logo, and all associated logos and designs are trademarks or registered trademarks of NCSOFT Corporation. All other trademarks are the property of their respective owners.</p>
 			</div>
 		</div>
-		<script>
+		<script type="application/javascript">
+			var arenanetCopyrightNotice = document.getElementById("arenanet-copyright-notice");
+			arenanetCopyrightNotice.textContent = "©2010–" + GregorianDate.today().year + " ArenaNet, LLC. All rights reserved. Guild Wars, Guild Wars 2, Heart of Thorns, Guild Wars 2: Path of Fire, ArenaNet, NCSOFT, the Interlocking NC Logo, and all associated logos and designs are trademarks or registered trademarks of NCSOFT Corporation. All other trademarks are the property of their respective owners.";
+		</script>
+		<script type="application/javascript">
 			const gregToMouvFrag = "#gregorian-to-mouvelian";
 			const mouvToGregFrag = "#mouvelian-to-gregorian";
 			const seasonNameToSeasonNumber = {

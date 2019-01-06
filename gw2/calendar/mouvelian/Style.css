@@ -1,3 +1,9 @@
+#ns {
+	text-align: center;
+	
+	font-family: Courier New;
+}
+
 #page-root {
 	text-align: center;
 }
@@ -51,7 +57,7 @@ input[type=text]:hover {
 	border: 1px solid silver;
 }
 
-p {
+#DateOutput {
 	font-size: 30px;
 	font-family: Menomonia;
 	margin: 0px;
